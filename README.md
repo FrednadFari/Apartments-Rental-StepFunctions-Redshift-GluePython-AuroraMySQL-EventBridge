@@ -75,3 +75,125 @@ AWS Step Functions
 6. Reporting / Metrics Layer
         ↓
 7. BI Dashboard Consumption
+
+Detailed Process Steps
+1. Scheduled Trigger
+
+Amazon EventBridge triggers the pipeline automatically based on schedule:
+
+Daily at 6:00 AM
+Weekly full refresh
+Monthly reconciliation run
+2. Extraction Layer
+
+AWS Glue jobs connect to MySQL and extract source tables:
+
+Jobs Used
+MysqlExtractionJobApartments
+MysqlExtractionJobApartmentVie
+MysqlExtractionJobApartmentAtt
+
+Output files are stored in Amazon S3.
+
+3. Raw Storage Layer (Amazon S3)
+
+Stores source data exactly as extracted.
+
+Benefits
+Cheap scalable storage
+Historical retention
+Replay capability
+Source backup
+4. Redshift Raw Ingestion
+
+Glue jobs load raw files into Redshift raw tables.
+
+Jobs Used
+RedshiftRawIngestionApartments
+RedshiftRawIngestionApartmentV
+RedshiftRawIngestionApartmentA
+5. Transformation & Data Modelling
+
+AWS Glue + Python jobs transform raw data into analytics structures.
+
+Layers
+Raw Landing Zone
+
+Original source structure.
+
+Curated Zone
+
+Cleaned and modeled data:
+
+Fact tables
+Dimension tables
+Joins
+Standardized columns
+Reporting Layer
+
+Business metrics tables:
+
+Avg Rent by City
+Vacancy Rate
+Monthly Revenue
+Apartment Counts
+Trend KPIs
+6. Workflow Orchestration
+
+AWS Step Functions controls execution sequence.
+Benefits
+Sequential dependency control
+Retry on failure
+Monitoring
+Logging
+Operational visibility
+7. Scheduling with Amazon EventBridge
+
+Amazon EventBridge starts Step Functions automatically.
+7. Scheduling with Amazon EventBridge
+
+Amazon EventBridge starts Step Functions automatically.
+
+Example Schedule
+cron(0 6 * * ? *)
+
+Runs daily at 6 AM.
+
+Benefits
+Fully automated runs
+No manual execution
+Reliable production scheduling
+Technologies Used
+Service	Purpose
+MySQL	Source Database
+AWS Glue	ETL Jobs
+Python	Transform Logic
+Amazon S3	Raw Storage
+Amazon Redshift	Data Warehouse
+AWS Step Functions	Workflow Orchestration
+Amazon EventBridge	Scheduling
+SQL	Data Modelling
+Key Engineering Skills Demonstrated
+ETL Pipeline Design
+Cloud Data Engineering
+AWS Architecture
+Workflow Automation
+Data Warehousing
+Redshift Modelling
+Python Scripting
+Production Scheduling
+Error Handling
+Scalable Data Pipelines
+Future Improvements
+CI/CD deployment pipeline
+Terraform infrastructure as code
+Data quality validation checks
+SNS alerts on failures
+Incremental CDC loading
+Dashboard integration with QuickSight
+Why This Project Matters
+
+This project reflects a real enterprise data engineering solution where operational data is transformed into trusted analytics assets using modern AWS services.
+
+It demonstrates both technical implementation and production architecture thinking.
+Fardis
